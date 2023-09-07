@@ -1,6 +1,7 @@
 import { View, SafeAreaView, ScrollView } from "react-native";
 import SearchBox from "./components/SearchBox";
 import { useState, useCallback } from "react";
+import User from "./components/User";
 
 export type Data = {
   avatar_url: string;
@@ -22,6 +23,7 @@ export default function App() {
     fetch(`https://api.github.com/users/${searchTerm}`)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data);
         setData(data);
       });
   }, []);
@@ -32,6 +34,11 @@ export default function App() {
         className="h-screen p-4 mx-auto"
       >
         <SearchBox onSearch={search} />
+        {data && (
+          <>
+            <User src={data.avatar_url} username={data.login} />
+          </>
+        )}
       </ScrollView>
     </SafeAreaView>
   );
